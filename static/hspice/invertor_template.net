@@ -1,0 +1,29 @@
+CMOS Inverter Netlist
+
+.lib {library_path} {use_case}
+
+********************************
+*  Component Declaration       *
+********************************
+xpmos {output_pin} {input_pin} {power_pin}  {power_pin}  {pmos_model} L={pmos_length}u W={pmos_width}u
+xnmos {output_pin} {input_pin} {ground_pin} {ground_pin} {nmos_model} L={nmos_length}u W={nmos_width}u
+
+********************************
+*  Fenout capacitance          *
+********************************
+CLOAD {output_pin} {ground_pin} {fenout}f
+
+********************************
+*   Power Unit                 *
+********************************
+Vpower  {power_pin}  {ground_pin} {voltage_value}v
+Vground {ground_pin} 0            0v
+
+
+Vpulse {input_pin} {ground_pin} pulse (0 {voltage_value}v 0 {rise_time}p {fall_time}p {high_pulse_width}n {period_time}n )
+
+.tran 1n 50*{period_time}n
+.option post probe
+.probe v(*)
+
+.END
